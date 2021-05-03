@@ -46,7 +46,7 @@ function AnimatedHue({ className, width = 32, height = 32, style = {}, children 
                     col(x, y, R(x, y, t), G(x, y, t), B(x, y, t));
                 }
             }
-            t = t + 0.03;
+            t = t + 0.01;
             window.requestAnimationFrame(run);
         }
 
