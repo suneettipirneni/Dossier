@@ -15,8 +15,19 @@ function AnimatedHue({ className, width = 32, height = 32, style = {}, children 
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    const resized = () => {
+        const canvas = canvasRef?.current;
+
+        if (!canvas) return;
+
+        canvas.width = canvasRef.current?.clientWidth ?? 0;
+        canvas.height = canvasRef.current?.clientHeight ?? 0;
+    };
+
     useEffect(() => {
-        const $ = canvasRef.current?.getContext('2d');
+        const $ = canvasRef.current?.getContext('2d', {alpha: false});
+
+        canvasRef.current?.addEventListener('resize', resized);
 
         if ($ == null) {
             return;
@@ -27,15 +38,15 @@ function AnimatedHue({ className, width = 32, height = 32, style = {}, children 
             $.fillRect(x, y, 1,1);
         }
         const R = function(x: number, y: number, t: number) {
-            return(Math.floor(150 + 64 * Math.cos( (x * x - y * y) / 300 + t)) );
+            return(Math.floor(10 + 64 * Math.cos( (x * x - y * y) / 300 + t)) );
         }
 
         const G = function(x: number, y: number, t: number) {
-            return(Math.floor(150 + 64 * Math.sin( (x * x * Math.cos(t / 4) + y *y * Math.sin(t / 3)) / 300)));
+            return(Math.floor(1 + 30 * Math.sin( (x * x * Math.cos(t / 4) + y *y * Math.sin(t / 3)) / 300)));
         }
 
         const B = function(x: number, y: number, t: number) {
-            return(Math.floor(150 + 64 * Math.sin(5 * Math.sin(t / 9) + ((x - 50) * (x - 50) + (y - 50) * (y - 50)) / 1100)));
+            return(Math.floor(30 + 64 * Math.sin(5 * Math.sin(t / 9) + ((x - 50) * (x - 50) + (y - 50) * (y - 50)) / 1100)));
         }
 
         let t = 0;
@@ -51,18 +62,16 @@ function AnimatedHue({ className, width = 32, height = 32, style = {}, children 
         }
 
         run();
-    }, [])
+        return () => canvasRef.current?.removeEventListener('resize', resized);
+    }, []);
+
+    // Override style
+    style.position = 'relative';
 
     return (
         <div style={style} className={className}>
-            <div style={{position: 'relative', display: 'flex', width: '100%'}}>
-                <div style={{ zIndex: 1, position: 'absolute', width: '100%', height: '100%'}}>
-                    <div className={className}>
-                        {children}
-                    </div>
-                </div>
-                <canvas style={{position: 'relative', zIndex: -1, display: 'block', height: '100vh', width: '100vw'}} ref={canvasRef} height={height} width={width} />
-            </div>
+            {children}
+            <canvas style={{position: 'absolute', zIndex: -1, height: '100%', width: '100%'}} ref={canvasRef} height={height} width={width} />
         </div>
     );
 }
