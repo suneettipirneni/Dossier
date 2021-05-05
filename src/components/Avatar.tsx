@@ -8,7 +8,7 @@ type AvatarProps = {
 
 function Avatar({ src, size = 100 }: AvatarProps): JSX.Element {
     return (
-        <img src={src} className="avatar" style={{ width: size, height: size, borderRadius: (size / 2) }} />
+        <img src={src} className="avatar" style={{ width: size, height: size, borderRadius: (size / 2), margin: 20 }} />
     );
 }
 

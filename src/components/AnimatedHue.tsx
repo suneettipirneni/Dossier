@@ -65,12 +65,11 @@ function AnimatedHue({ className, width = 32, height = 32, style = {}, children 
         return () => canvasRef.current?.removeEventListener('resize', resized);
     }, []);
 
-    // Override style
-    style.position = 'relative';
-
     return (
         <div style={style} className={className}>
-            {children}
+            <div style={{position: 'relative' }}>
+                {children}
+            </div>
             <canvas style={{position: 'absolute', zIndex: -1, height: '100%', width: '100%'}} ref={canvasRef} height={height} width={width} />
         </div>
     );

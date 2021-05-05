@@ -6,12 +6,15 @@ import profilePicture from './assets/profile.jpeg'
 
 function App(): JSX.Element {
   return (
-    <div className="container">
+      
+    <div>
       <AnimatedHue className="animate-hue">
-        <div className="profile-container">
-          <Avatar src={profilePicture} size={150} />
-          <h1 className="title">Suneet Tipirneni</h1>
-        </div>
+        <nav>
+          <div className="profile-container">
+            <Avatar src={profilePicture} size={55} />
+            <h1 className="title">Suneet Tipirneni</h1>
+          </div>
+        </nav>
       </AnimatedHue>
     </div>
   );
