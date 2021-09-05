@@ -1,0 +1,11 @@
+@import "../node_modules/bulma/sass/utilities/initial-variables.sass";
+
+.button {
+  font-weight: 700;
+}
+
+$radius: 13px;
+$blue: #007bff;
+$primary: $blue;
+
+@import "../node_modules/bulma";
